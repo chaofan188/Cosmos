@@ -1,0 +1,20 @@
+﻿//Script GUID:d3b041d9-9545-40e9-a21e-acdb7c06f678
+//Used for tracking history
+searchlog =
+    EXTRACT UserId : int,
+            Start : DateTime,
+            Region : string,
+            Query : string,
+            Duration : int,
+            Urls : string,
+            ClickedUrls : string
+    FROM @"my/SampleInputs/SearchLog.txt"
+    USING DefaultTextExtractor();
+rs1 =
+    SELECT Region,
+           SUM(Duration) AS TotalDurationTime
+    FROM searchlog
+    GROUP BY Region;
+
+OUTPUT rs1
+TO @"/my/ScopeTutorial/SampleOutputs/output.txt";
